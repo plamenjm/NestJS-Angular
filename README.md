@@ -1,6 +1,6 @@
-# NestJS-Angular
+# Nest.js
 
-Playground (Nest.js, WebSocket, Angular)
+Playground (Nest.js 10, WebSocket)
 
 <details><summary>
 
@@ -9,8 +9,11 @@ Playground (Nest.js, WebSocket, Angular)
 </summary>
 
 ```
-#$ npm install -g @nestjs/cli && nest new project-name
-$ npx @nestjs/cli new nestjs-angular; # @nestjs/cli@10.3.0, npm
+$ npm install --save-dev @nestjs/cli; # npm install -g @nestjs/cli
+$ npm exec -- nest new nestjs; # default: npm
+
+$ npm install @nestjs/websockets
+$ npm exec -- nest generate module liveTrades
 ```
 
 </details>

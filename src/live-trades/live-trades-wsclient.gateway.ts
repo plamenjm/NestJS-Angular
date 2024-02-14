@@ -11,7 +11,7 @@ export const WebSocketGatewayCors = {origin: Config.LiveTradesCorsOrigin}
 
 export class LiveTradesEvent {
   constructor(
-      public trades: object,
+      public trades: {[key: string]: any[]},
   ) {}
 }
 
@@ -43,17 +43,17 @@ export class LiveTradesWSClientGateway implements OnGatewayInit {
     this.socket.onerror = this.onError.bind(this)
   }
 
-  log(action, message = '') {
+  log(action: string, message = '') {
     if (action) action = ' ' + action
     if (message) message = ' ' + message
     this.logger.log(`[${Config.LiveTradesUrl}${action}] ${message}`)
   }
 
-  private getTrades(data: string): object {
+  private getTrades(data: string) {
     // messages:
     // [ 12430, [ [   '1494734166-tBTCUSD', 1705081553, 43535, 0.0156206 ] ] ]
     // [ 12430, 'te', '1494734166-tBTCUSD', 1705081553, 43535, 0.0156206 ]
-    const trades = {}
+    const trades: {[key: string]: any[]} = {}
     Config.LiveTradesSymbol.forEach(symbol => trades[symbol] = [])
     const json = JSON.parse(data)
     if (!Array.isArray(json)) return trades

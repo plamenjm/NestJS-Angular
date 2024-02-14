@@ -21,8 +21,8 @@ export class LiveTradesServerGateway implements OnGatewayInit, OnGatewayConnecti
     private readonly logger = new Logger('Server')
     private readonly verbose = false
 
-    private readonly trades = {}
-    private readonly subscribed = {}
+    private readonly trades: {[key: string]: any[]} = {}
+    private readonly subscribed: {[key: string]: Socket[]} = {}
 
     afterInit() {
         //this.logger.log('Init')
@@ -64,7 +64,7 @@ export class LiveTradesServerGateway implements OnGatewayInit, OnGatewayConnecti
     }
 
     @SubscribeMessage('live')
-    async onMessageLive(socket: Socket, data) {
+    async onMessageLive(socket: Socket, data: string) {
         const json = JSON.parse(data) as TSMessageLiveSubscribe
         if (json && json.event === 'subscribe' && json.channel === 'trades') { // {event: 'subscribe', channel: 'trades', pair: 'BTCUSD'}
             if (this.subscribed[json.pair]) this.subscribed[json.pair].push(socket)
@@ -78,7 +78,7 @@ export class LiveTradesServerGateway implements OnGatewayInit, OnGatewayConnecti
     }
 
     @SubscribeMessage('log')
-    async onMessageLog(socket: Socket, data) {
+    async onMessageLog(socket: Socket, data: string) {
         const json = JSON.parse(data)
         if (json.event === 'log' && json.channel === 'trades') { // {event: 'log', channel: 'trades', pair: 'BTCUSD', from: 1705081553, to: 1705081553}
             if (this.trades[json.pair]) {
@@ -98,14 +98,14 @@ export class LiveTradesServerGateway implements OnGatewayInit, OnGatewayConnecti
         socket.emit('log', data) // echo
     }
 
-    log(action, prefix = '', data = '', socket: Socket = undefined) {
+    log(action: string, prefix = '', data = '', socket?: Socket) {
         if (action) action = ' ' + action
         if (prefix) prefix += '/'
         if (data) data = ' ' + data
         this.logger.log(`[${prefix}${socket?.id ?? ''}/${this.server.sockets.sockets.size}${action}]${data}`)
     }
 
-    eventTime(time) {
+    eventTime(time: number) {
         return (new Date(time * 1000)).toISOString()
             .split('T').join(' ')
             .split('.').slice(0, -1).join('')

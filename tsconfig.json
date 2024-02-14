@@ -12,10 +12,22 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    //"strictNullChecks": false,
+    //"noImplicitAny": false,
+    //"strictBindCallApply": false,
+    //"forceConsistentCasingInFileNames": false,
+    //"noFallthroughCasesInSwitch": false,
+
+    // nest new project --strict
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+
+    //
+    "allowJs": true,
+    //"strict": true,
+    //"alwaysStrict": true
   }
 }

@@ -20,12 +20,14 @@ export const Config = {
 //---
 
 export enum CfgProc {
-    liveTradesServerOnly = 'liveTradesServerOnly',
+    liveTradesClient = 'liveTradesClient',
+    liveTradesServer = 'liveTradesServer',
     liveTradesTestClient = 'liveTradesTestClient',
 }
 
 type TSCfgProc = {
-    [CfgProc.liveTradesServerOnly]: boolean,
+    [CfgProc.liveTradesClient]: boolean,
+    [CfgProc.liveTradesServer]: boolean,
     [CfgProc.liveTradesTestClient]: boolean,
 }
 
@@ -33,14 +35,16 @@ type TSCfgProc = {
 //---
 
 export enum Cfg {
-    //liveTradesServerOnly = 'liveTradesServerOnly',
+    //liveTradesClient = 'liveTradesClient',
+    //liveTradesServer = 'liveTradesServer',
 
     help = 'help',
     port = 'port',
 }
 
 interface TSCfg extends TSCfgProc {
-    //[Cfg.liveTradesServerOnly]: boolean,
+    //[Cfg.liveTradesClient]: boolean,
+    //[Cfg.liveTradesServer]: boolean,
 
     [Cfg.help]: boolean,
     [Cfg.port]: number,
@@ -56,7 +60,8 @@ export enum ProcArg {
     helpShort = '-h',
     port = '--port',
 
-    liveTradesServerOnly = '--liveTradesServerOnly',
+    liveTradesClient = '--liveTradesClient',
+    liveTradesServer = '--liveTradesServer',
     liveTradesTestClient = '--liveTradesTestClient',
 }
 
@@ -86,7 +91,8 @@ export function cfgProc() {
     return {
         procArg,
         isArg,
-        liveTradesServerOnly: isArg(ProcArg.liveTradesServerOnly),
+        liveTradesClient: isArg(ProcArg.liveTradesClient),
+        liveTradesServer: isArg(ProcArg.liveTradesServer),
         liveTradesTestClient: isArg(ProcArg.liveTradesTestClient),
     }
 }

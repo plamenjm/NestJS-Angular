@@ -9,9 +9,8 @@ import {LiveTradesServerGateway} from './live-trades-server.gateway';
     providers: [
         //{provide: LiveTradesWSClientGateway, inject: [ConfigService],
         //    useFactory: (config: ConfigService) => config.get(Config.liveTradesServer) ? null : LiveTradesWSClientGateway},
-        ...(cfgProc().liveTradesServerOnly ? [] : [LiveTradesWSClientGateway]),
-
-        LiveTradesServerGateway,
+        ...(!cfgProc().liveTradesClient ? [] : [LiveTradesWSClientGateway]),
+        ...(!cfgProc().liveTradesServer ? [] : [LiveTradesServerGateway]),
     ],
 })
 export class LiveTradesModule {}

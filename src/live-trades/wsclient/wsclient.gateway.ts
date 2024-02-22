@@ -1,26 +1,14 @@
+import {OnGatewayInit, SubscribeMessage, WebSocketGateway} from '@nestjs/websockets';
 import {Logger} from '@nestjs/common';
 import {EventEmitter2} from '@nestjs/event-emitter';
-import {OnGatewayInit, WebSocketGateway} from '@nestjs/websockets';
 import {CloseEvent, ErrorEvent, MessageEvent, WebSocket} from 'ws';
-import {Config} from '../config';
+import {Trades} from '../types/types.interface';
+import {Config} from '../config/config';
+import {WSEvent} from '../wsevent/wsevent';
 
-
-//--
-
-export const WebSocketGatewayCors = {origin: Config.LiveTradesCorsOrigin}
-
-export class LiveTradesEvent {
-  constructor(
-      public trades: {[key: string]: any[]},
-  ) {}
-}
-
-
-//---
-
-@WebSocketGateway({cors: WebSocketGatewayCors})
-export class LiveTradesWSClientGateway implements OnGatewayInit {
-  private readonly logger = new Logger('Client')
+@WebSocketGateway({cors: {origin: Config.LiveTradesCorsOrigin}})
+export class WSClientGateway implements OnGatewayInit {
+  private readonly logger = new Logger('WSClient')
   private readonly verbose = false
 
   private socket: WebSocket
@@ -53,8 +41,8 @@ export class LiveTradesWSClientGateway implements OnGatewayInit {
     // messages:
     // [ 12430, [ [   '1494734166-tBTCUSD', 1705081553, 43535, 0.0156206 ] ] ]
     // [ 12430, 'te', '1494734166-tBTCUSD', 1705081553, 43535, 0.0156206 ]
-    const trades: {[key: string]: any[]} = {}
-    Config.LiveTradesSymbol.forEach(symbol => trades[symbol] = [])
+    const trades: Trades = {}
+    Config.LiveTradesSymbol.forEach((symbol: string) => trades[symbol] = [])
     const json = JSON.parse(data)
     if (!Array.isArray(json)) return trades
     let events
@@ -93,7 +81,7 @@ export class LiveTradesWSClientGateway implements OnGatewayInit {
     Object.values(trades).forEach(events => count += events.length)
     if (count) {
       this.tradesSave += count
-      this.eventEmitter.emit('LiveTradesEvent', new LiveTradesEvent(trades))
+      this.eventEmitter.emit('LiveTradesEvent', new WSEvent(trades))
     }
 
     if (!this.verbose && this.messageCount && (this.messageCount === 100 || this.messageCount % 1000 === 0)) { // feedback: summary
@@ -118,5 +106,10 @@ export class LiveTradesWSClientGateway implements OnGatewayInit {
 
   private onError({message}: ErrorEvent) {
     this.log('error', message)
+  }
+
+  @SubscribeMessage('message') //???
+  handleMessage(client: any, payload: any): string {
+    return 'Hello world!';
   }
 }

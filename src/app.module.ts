@@ -6,8 +6,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { YummyService } from './yummy/yummy.service';
 import { LiveTradesModule } from './live-trades/live-trades.module';
-//import {cfgProc} from './config';
-//import { LiveTradesClientGateway } from './live-trades-client/live-trades-client.gateway';
 
 @Module({
   imports: [
@@ -21,11 +19,12 @@ import { LiveTradesModule } from './live-trades/live-trades.module';
       EventEmitterModule.forRoot(),
       LiveTradesModule,
   ],
-  controllers: [AppController],
+  controllers: [
+      AppController,
+  ],
   providers: [
       AppService,
       YummyService,
-      //...(!cfgProc().liveTradesTestClient ? [] : [LiveTradesClientGateway]), //to-do
   ],
 })
 export class AppModule {}

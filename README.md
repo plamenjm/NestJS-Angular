@@ -114,20 +114,23 @@ $ npm run start
 $ npm install --save-dev @nestjs/cli; # npm install -g @nestjs/cli
 $ npm exec -- nest new nestjs; # default: npm
 
+$ npm install --save-dev @swc/cli
+$ npm exec -- nest generate service Yoummday
+
 $ npm install @nestjs/config
 $ npm install @nestjs/websockets
 $ npm install ws
-$ npm install @types/ws
+$ npm install --save-dev @types/ws
 $ npm install @nestjs/platform-socket.io
 $ npm install @nestjs/event-emitter
 $ npm install --save-dev socket.io-client
-$ npm exec -- nest generate module liveTrades; # liveTradesWSClient, liveTradesServer
-$ npm exec -- nest generate gateway liveTradesClient
-
-$ npm install nodemailer
-$ npm install --save-dev @types/nodemailer
-$ npm install --save-dev @swc/cli
-$ npm exec -- nest generate service Yoummday
+$ npm exec -- nest generate module liveTrades
+$ npm exec -- nest generate gateway WSClient liveTrades
+$ npm exec -- nest generate gateway Server liveTrades
+$ npm exec -- nest generate gateway TestClient liveTrades
+$ npm exec -- nest generate interface Types liveTrades
+$ npm exec -- nest generate class Config liveTrades
+$ npm exec -- nest generate class WSEvent liveTrades
 ```
 
 </details>

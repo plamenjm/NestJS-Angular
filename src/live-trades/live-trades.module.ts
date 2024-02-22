@@ -1,16 +1,18 @@
 import { Module } from '@nestjs/common';
-//import {ConfigService} from '@nestjs/config';
-//import {Config} from '../config';
 import {cfgProc} from '../config';
-import {LiveTradesWSClientGateway} from './live-trades-wsclient.gateway';
-import {LiveTradesServerGateway} from './live-trades-server.gateway';
+//import {ConfigService} from '@nestjs/config';
+//import {Cfg} from '../config';
+import { WSClientGateway } from './wsclient/wsclient.gateway';
+import { ServerGateway } from './server/server.gateway';
+//import { TestClientGateway } from './test-client/test-client.gateway';
 
 @Module({
     providers: [
-        //{provide: LiveTradesWSClientGateway, inject: [ConfigService],
-        //    useFactory: (config: ConfigService) => config.get(Config.liveTradesServer) ? null : LiveTradesWSClientGateway},
-        ...(!cfgProc().liveTradesClient ? [] : [LiveTradesWSClientGateway]),
-        ...(!cfgProc().liveTradesServer ? [] : [LiveTradesServerGateway]),
+        //{provide: WSClientGateway, inject: [ConfigService],
+        //    useFactory: (config: ConfigService) => config.get(Cfg.liveTradesClient) ? null : WSClientGateway},
+        ...(!cfgProc().liveTradesClient ? [] : [WSClientGateway]),
+        ...(!cfgProc().liveTradesServer ? [] : [ServerGateway]),
+        //...(!cfgProc().liveTradesTestClient ? [] : [TestClientGateway]),
     ],
 })
 export class LiveTradesModule {}
